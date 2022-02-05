@@ -1,11 +1,55 @@
 ## Docker commands used to build the application 
 # TODO: insert the docker build command
 
+docker build -t rmukkamala/techtrends:v1.1.0 .
+
+
 ## Docker commands used to run the application
 # TODO: insert the docker run command
+docker run -d --name techtrendsv1.1.0 -p 7111:3111 rmukkamala/techtrends:v1.1.0
 
 ## Docker commands used to get the application logs
 # TODO: insert the docker logs command
+docker logs edf03f248665
+
 
 ## Logs from the container running the TechTrends application
 # TODO: paste logs from the Docker container 
+
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+INFO:werkzeug: * Running on http://0.0.0.0:3111/ (Press CTRL+C to quit)
+INFO:app:2022-02-03 21:41:19.042658, All the posts have been retrieved for display !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:19] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:19] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:19] "GET /favicon.ico HTTP/1.1" 404 -
+INFO:app:2022-02-03 21:41:22.625227, Selected post with id:1 has been retrieved !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:22] "GET /1 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:25] "GET /about HTTP/1.1" 200 -
+INFO:app:2022-02-03 21:41:28.053583, All the posts have been retrieved for display !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:28] "GET / HTTP/1.1" 200 -
+INFO:app:2022-02-03 21:41:38.539863,Health Request is succesful
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:38] "GET /healthz HTTP/1.1" 200 -
+INFO:app:2022-02-03 21:41:45.346471, Metrics Request is succesful
+INFO:app:2022-02-03 21:41:45.347614,db connection count is 4
+INFO:app:2022-02-03 21:41:45.347954,The total count of the posts is 6
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:45] "GET /metrics HTTP/1.1" 200 -
+INFO:app:2022-02-03 21:41:50.635272, All the posts have been retrieved for display !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:50] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:41:53] "GET /create HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:42:03] "POST /create HTTP/1.1" 302 -
+INFO:app:2022-02-03 21:42:03.326094, All the posts have been retrieved for display !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:42:03] "GET / HTTP/1.1" 200 -
+INFO:app:2022-02-03 21:42:06.886860, Selected post with id:7 has been retrieved !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:42:06] "GET /7 HTTP/1.1" 200 -
+INFO:app:2022-02-03 21:42:09.956486, All the posts have been retrieved for display !
+INFO:werkzeug:172.17.0.1 - - [03/Feb/2022 21:42:09] "GET / HTTP/1.1" 200 -
+
+
+
+
+
+
