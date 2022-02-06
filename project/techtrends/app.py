@@ -2,7 +2,6 @@ import sqlite3
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 import logging
-import datetime
 
 ##global variable
 global_db_counter=0
@@ -22,7 +21,6 @@ def get_post(post_id):
     post = connection.execute('SELECT * FROM posts WHERE id = ?',
                         (post_id,)).fetchone()
     connection.close()
-    app.logger.info(f"{datetime.datetime.now()}, Selected post with id:{post_id} has been retrieved !")
     return post
 
 
@@ -43,7 +41,7 @@ def index():
     connection = get_db_connection()
     posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.close()
-    app.logger.info(f"{datetime.datetime.now()}, All the posts have been retrieved for display !")
+    app.logger.info("All the posts have been retrieved for display !")
     return render_template('index.html', posts=posts)
 
 # Define how each individual article is rendered 
@@ -52,13 +50,19 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-      return render_template('404.html'), 404
+        #log_req2
+        app.logger.debug("Error! Article does not exist!")
+        return render_template('404.html'), 404
     else:
-      return render_template('post.html', post=post)
+        #log_req1
+        app.logger.debug(f"The selected article with title: {post['title']} :has been retrieved!")
+        return render_template('post.html', post=post)
 
 # Define the About Us page
 @app.route('/about')
 def about():
+    #log_req3
+    app.logger.debug(f"The 'About us' page has been retrieved!")
     return render_template('about.html')
 
 # Define the post creation functionality 
@@ -76,7 +80,8 @@ def create():
                          (title, content))
             connection.commit()
             connection.close()
-
+            #log_req4
+            app.logger.debug(f"New article with title: {title} :has been created !")
             return redirect(url_for('index'))
 
     return render_template('create.html')
@@ -84,21 +89,22 @@ def create():
 # heathz: get the health of the application
 @app.route('/healthz')
 def get_health():
-    app.logger.info(f"{datetime.datetime.now()},Health Request is succesful")
+    app.logger.info("Health Request is succesful")
     return app.response_class(status=200, response=json.dumps({"result":"OK - healthy"}), mimetype='application/json')
 
 
 # metrics: get the metrics of the application
 #Example output: {"db_connection_count": 1, "post_count": 7}
 @app.route('/metrics')
-def get_metrics():
-    app.logger.info(f"{datetime.datetime.now()}, Metrics Request is succesful")
+def get_metrics():  
+    app.logger.info(f"Metrics Request is succesful")
     total_posts_count= get_total_posts_count()
-    app.logger.info(f"{datetime.datetime.now()},db connection count is {global_db_counter}")
-    app.logger.info(f"{datetime.datetime.now()},The total count of the posts is {total_posts_count}")
+    app.logger.debug(f"db connection count is {global_db_counter}")
+    app.logger.debug(f"The total count of the posts is {total_posts_count}")
     return app.response_class(status=200, response=json.dumps({"db_connection_count":global_db_counter,"total_posts_count":total_posts_count}), mimetype="application/json")
 
 # start the application on port 3111
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(format='%(levelname)s:%(name)s:%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',level=logging.DEBUG)
     app.run(host='0.0.0.0', port='3111')
+
